@@ -3,10 +3,10 @@ WORKDIR /app
 COPY go.mod go.sum ./
 RUN go mod download
 COPY . .
-RUN CGO_ENABLED=0 GOOS=linux go build -o /server ./cmd/server
+RUN CGO_ENABLED=0 GOOS=linux go build -o /scheduler ./cmd/server
 
 FROM alpine:3.19
 RUN apk add --no-cache curl
-COPY --from=builder /server /server
-EXPOSE 3007
-CMD ["/server"]
+COPY --from=builder /scheduler /scheduler
+EXPOSE 3009
+CMD ["/scheduler"]
