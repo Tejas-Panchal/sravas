@@ -8,4 +8,9 @@ provider "aws" {
       ManagedBy   = "terraform"
     }
   }
+
+  assume_role {
+    role_arn     = var.assume_role_arn
+    session_name = "sravas-tf-${var.environment}"
+  }
 }
