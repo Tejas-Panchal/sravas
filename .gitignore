@@ -9,7 +9,8 @@ __pycache__/
 .terraform/
 *.tfstate
 *.tfstate.backup
-*.tfvars
+# Uncomment to track infra/*.tfvars; use *.auto.tfvars for secrets
+*.auto.tfvars
 .DS_Store
 coverage/
 .vscode/
