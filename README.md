@@ -10,20 +10,20 @@ A YouTube clone built to learn DevOps end-to-end: 11 microservices, React fronte
 │ Frontend │    │   :8000      │
 └──────────┘    └──────┬───────┘
                        │ routes to services
-       ┌───────────────┼───────────────┐
-       │               │               │
-┌──────▼──┐   ┌────────▼┐   ┌─────────▼┐
-│ Auth    │   │ Upload  │   │ Stream  │
-│ :3001   │   │ :3003   │   │ :3004   │
-└─────────┘   └─────────┘   └─────────┘
-┌─────────┐   ┌─────────┐   ┌─────────┐
-│ User    │   │ Search  │   │ Comment │
-│ :3002   │   │ :3005   │   │ :3006   │
-└─────────┘   └─────────┘   └─────────┘
-┌───────────┐   ┌────────────┐
+       ┌───────────────┼─────────────┐
+       │               │             │
+┌──────▼──┐   ┌────────▼┐   ┌────────▼─┐
+│ Auth    │   │ Upload  │   │  Stream  │
+│ :3001   │   │ :3003   │   │  :3004   │
+└─────────┘   └─────────┘   └──────────┘
+┌─────────┐   ┌─────────┐   ┌──────────┐
+│ User    │   │ Search  │   │  Comment │
+│ :3002   │   │ :3005   │   │  :3006   │
+└─────────┘   └─────────┘   └──────────┘
+┌───────────┐   ┌─────────────┐
 │ Analytics │   │ Notification│
 │  :3007    │   │  :3008      │
-└───────────┘   └────────────┘
+└───────────┘   └─────────────┘
 ┌────────────────┐
 │ Scheduler      │
 │ (cron only)    │
@@ -32,35 +32,36 @@ A YouTube clone built to learn DevOps end-to-end: 11 microservices, React fronte
 
 ## Stack
 
-| Layer | Technology |
-|-------|-----------|
-| Frontend | React 18, Vite, Tailwind CSS, Redux Toolkit |
-| Backend | Go (chi/v5), Python (FastAPI) |
-| Database | PostgreSQL, MongoDB, Elasticsearch |
-| Cache | Redis |
-| Queue | Apache Kafka |
-| Container | Docker, docker-compose |
-| Infra (planned) | Terraform, AWS EKS, Helm |
-| CI/CD (planned) | GitHub Actions |
+| Layer           | Technology                                  |
+| --------------- | ------------------------------------------- |
+| Frontend        | React 18, Vite, Tailwind CSS, Redux Toolkit |
+| Backend         | Go (chi/v5), Python (FastAPI)               |
+| Database        | PostgreSQL, MongoDB, Elasticsearch          |
+| Cache           | Redis                                       |
+| Queue           | Apache Kafka                                |
+| Container       | Docker, docker-compose                      |
+| Infra (planned) | Terraform, AWS EKS, Helm                    |
+| CI/CD (planned) | GitHub Actions                              |
 
 ## Services
 
-| Service | Port | Language | Description |
-|---------|------|----------|-------------|
-| api-gateway | 8000 | Go | Reverse proxy, CORS, logging |
-| auth-service | 3001 | Go | Register, login, JWT |
-| user-service | 3002 | Go | Profile, subscriptions |
-| upload-service | 3003 | Go | Multipart upload, validation |
-| streaming-service | 3004 | Go | HLS manifest, segment serving |
-| search-service | 3005 | Go | Inverted index, autocomplete |
-| comment-service | 3006 | Go | CRUD, nested replies, likes |
-| analytics-service | 3007 | Go | Event tracking, trending |
-| notification-service | 3008 | Go | In-app notifications |
-| scheduler-service | — | Go | Cron jobs (uploads, trending, cleanup, analytics) |
+| Service              | Port | Language | Description                                       |
+| -------------------- | ---- | -------- | ------------------------------------------------- |
+| api-gateway          | 8000 | Go       | Reverse proxy, CORS, logging                      |
+| auth-service         | 3001 | Go       | Register, login, JWT                              |
+| user-service         | 3002 | Go       | Profile, subscriptions                            |
+| upload-service       | 3003 | Go       | Multipart upload, validation                      |
+| streaming-service    | 3004 | Go       | HLS manifest, segment serving                     |
+| search-service       | 3005 | Go       | Inverted index, autocomplete                      |
+| comment-service      | 3006 | Go       | CRUD, nested replies, likes                       |
+| analytics-service    | 3007 | Go       | Event tracking, trending                          |
+| notification-service | 3008 | Go       | In-app notifications                              |
+| scheduler-service    | —    | Go       | Cron jobs (uploads, trending, cleanup, analytics) |
 
 ## Getting Started
 
 ### Prerequisites
+
 - Docker & Docker Compose
 - Git
 
@@ -119,7 +120,3 @@ sravas/
 ├── .env.example
 └── PLAN.md             # Build plan (phases)
 ```
-
-## License
-
-MIT

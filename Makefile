@@ -3,7 +3,7 @@ SERVICES := api-gateway auth-service user-service upload-service streaming-servi
 
 .DEFAULT_GOAL := up
 
-.PHONY: up down build test lint dev-frontend dev-service logs ps clean
+.PHONY: up down build test lint dev-frontend dev-service logs ps clean verify-network
 
 up:
 	docker compose up --build -d
@@ -55,3 +55,9 @@ ps:
 clean:
 	docker compose down -v
 	@echo "Volumes removed."
+
+verify-network:
+	docker compose up --build -d
+	@echo "Waiting for services to become healthy..."
+	@sleep 20
+	./scripts/verify-network.sh
