@@ -117,6 +117,5 @@ sravas/
 ├── monitoring/         # Prometheus/Grafana (planned)
 ├── tests/              # Unit, integration, e2e, load
 ├── docker-compose.yml
-├── .env.example
-└── PLAN.md             # Build plan (phases)
+└─ .env.example
 ```
