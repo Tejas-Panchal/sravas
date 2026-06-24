@@ -12,3 +12,13 @@ output "kubeconfig_command" {
   description = "AWS CLI command to configure kubectl for the EKS cluster"
   value       = format("aws eks update-kubeconfig --region %s --name %s", var.aws_region, module.eks.cluster_id)
 }
+
+output "cloudfront_domain_name" {
+  description = "Domain name of the CloudFront distribution (use for CNAME / app URL)"
+  value       = module.cloudfront.cloudfront_domain_name
+}
+
+output "cloudfront_distribution_id" {
+  description = "ID of the CloudFront distribution (for cache invalidation)"
+  value       = module.cloudfront.cloudfront_distribution_id
+}
