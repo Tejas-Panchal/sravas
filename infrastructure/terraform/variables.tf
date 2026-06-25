@@ -33,3 +33,33 @@ variable "single_nat_gateway" {
   type        = bool
   default     = true
 }
+
+variable "rds_multi_az" {
+  description = "Enable multi-AZ deployment for RDS (set true for prod)"
+  type        = bool
+  default     = false
+}
+
+variable "rds_deletion_protection" {
+  description = "Enable deletion protection for RDS (set true for prod)"
+  type        = bool
+  default     = false
+}
+
+variable "rds_skip_final_snapshot" {
+  description = "Skip final snapshot on RDS deletion (set false for prod)"
+  type        = bool
+  default     = true
+}
+
+variable "rds_backup_retention_period" {
+  description = "Number of days to retain RDS automated backups"
+  type        = number
+  default     = 7
+}
+
+variable "elasticache_cluster_mode_enabled" {
+  description = "Enable ElastiCache cluster mode (set true for prod)"
+  type        = bool
+  default     = false
+}
