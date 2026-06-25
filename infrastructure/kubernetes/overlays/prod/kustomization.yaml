@@ -1,0 +1,35 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+resources:
+  - ../../base
+
+namePrefix: prod-
+
+commonLabels:
+  environment: prod
+  managed-by: kustomize
+
+replicas:
+  - name: api-gateway
+    count: 3
+  - name: auth-service
+    count: 3
+  - name: user-service
+    count: 3
+  - name: upload-service
+    count: 2
+  - name: streaming-service
+    count: 3
+  - name: search-service
+    count: 2
+  - name: comment-service
+    count: 2
+  - name: analytics-service
+    count: 2
+  - name: notification-service
+    count: 2
+  - name: scheduler-service
+    count: 1
+  - name: frontend
+    count: 2
