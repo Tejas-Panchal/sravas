@@ -1,0 +1,27 @@
+# IngressClass for AWS ALB Ingress Controller
+# Reference this in Ingress resources via spec.ingressClassName: alb
+apiVersion: networking.k8s.io/v1
+kind: IngressClass
+metadata:
+  name: alb
+  annotations:
+    ingressclass.kubernetes.io/is-default-class: "true"
+spec:
+  controller: eks.amazonaws.com/alb-controller
+  parameters:
+    apiGroup: eks.amazonaws.com
+    kind: IngressClassParams
+    name: alb
+
+---
+
+# IngressClassParams — ALB-level defaults (internet-facing, tags)
+apiVersion: eks.amazonaws.com/v1
+kind: IngressClassParams
+metadata:
+  name: alb
+spec:
+  scheme: internet-facing
+  tags:
+    - key: ManagedBy
+      value: aws-load-balancer-controller

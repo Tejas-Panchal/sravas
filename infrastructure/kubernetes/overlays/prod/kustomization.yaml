@@ -33,3 +33,72 @@ replicas:
     count: 1
   - name: frontend
     count: 2
+  - name: mongodb
+    count: 3
+  - name: elasticsearch
+    count: 3
+  - name: zookeeper
+    count: 3
+  - name: kafka
+    count: 3
+
+patches:
+  - target:
+      kind: StatefulSet
+      name: mongodb
+    patch: |-
+      - op: replace
+        path: /spec/template/spec/containers/0/args
+        value: ["mongod", "--bind_ip_all", "--replSet", "rs0", "--dbpath=/data/db"]
+      - op: replace
+        path: /spec/volumeClaimTemplates/0/spec/resources/requests/storage
+        value: 50Gi
+  - target:
+      kind: StatefulSet
+      name: elasticsearch
+    patch: |-
+      - op: replace
+        path: /spec/template/spec/containers/0/env
+        value:
+          - name: cluster.name
+            value: sravas-es
+          - name: discovery.seed_hosts
+            value: "elasticsearch-0.elasticsearch-headless,elasticsearch-1.elasticsearch-headless,elasticsearch-2.elasticsearch-headless"
+          - name: cluster.initial_master_nodes
+            value: "elasticsearch-0,elasticsearch-1,elasticsearch-2"
+          - name: xpack.security.enabled
+            value: "false"
+          - name: ES_JAVA_OPTS
+            value: "-Xms1g -Xmx1g"
+          - name: node.name
+            valueFrom:
+              fieldRef:
+                fieldPath: metadata.name
+      - op: replace
+        path: /spec/volumeClaimTemplates/0/spec/resources/requests/storage
+        value: 50Gi
+  - target:
+      kind: StatefulSet
+      name: kafka
+    patch: |-
+      - op: replace
+        path: /spec/template/spec/containers/0/env/0/value
+        value: "2"
+      - op: replace
+        path: /spec/template/spec/containers/0/env/3/value
+        value: "3"
+      - op: replace
+        path: /spec/volumeClaimTemplates/0/spec/resources/requests/storage
+        value: 50Gi
+  - target:
+      kind: StatefulSet
+      name: zookeeper
+    patch: |-
+      - op: add
+        path: /spec/template/spec/containers/0/env/-
+        value:
+          name: ZOOKEEPER_SERVERS
+          value: "zookeeper-0.zookeeper-headless:2888:3888;zookeeper-1.zookeeper-headless:2888:3888;zookeeper-2.zookeeper-headless:2888:3888"
+      - op: replace
+        path: /spec/volumeClaimTemplates/0/spec/resources/requests/storage
+        value: 20Gi

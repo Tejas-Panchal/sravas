@@ -1,0 +1,16 @@
+# ClusterIP service for application access (single endpoint)
+apiVersion: v1
+kind: Service
+metadata:
+  name: mongodb
+  labels:
+    app: mongodb
+    app.kubernetes.io/component: database
+spec:
+  type: ClusterIP
+  selector:
+    app: mongodb
+  ports:
+    - port: 27017
+      name: mongodb
+      targetPort: mongodb

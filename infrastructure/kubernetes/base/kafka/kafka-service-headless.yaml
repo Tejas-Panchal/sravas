@@ -1,0 +1,14 @@
+# Headless service for Kafka StatefulSet DNS
+apiVersion: v1
+kind: Service
+metadata:
+  name: kafka-headless
+  labels:
+    app: kafka
+spec:
+  clusterIP: None
+  selector:
+    app: kafka
+  ports:
+    - port: 9092
+      name: plaintext

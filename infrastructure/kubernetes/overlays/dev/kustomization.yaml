@@ -33,3 +33,11 @@ replicas:
     count: 1
   - name: frontend
     count: 1
+  - name: mongodb
+    count: 1
+  - name: elasticsearch
+    count: 1
+  - name: zookeeper
+    count: 1
+  - name: kafka
+    count: 1

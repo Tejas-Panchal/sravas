@@ -1,0 +1,18 @@
+# Headless service for Zookeeper StatefulSet DNS
+apiVersion: v1
+kind: Service
+metadata:
+  name: zookeeper-headless
+  labels:
+    app: zookeeper
+spec:
+  clusterIP: None
+  selector:
+    app: zookeeper
+  ports:
+    - port: 2181
+      name: client
+    - port: 2888
+      name: peer
+    - port: 3888
+      name: election
