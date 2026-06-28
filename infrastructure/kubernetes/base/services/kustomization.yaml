@@ -1,0 +1,28 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+namespace: sravas
+
+resources:
+  - api-gateway-deployment.yaml
+  - api-gateway-service.yaml
+  - auth-service-deployment.yaml
+  - auth-service-service.yaml
+  - user-service-deployment.yaml
+  - user-service-service.yaml
+  - upload-service-deployment.yaml
+  - upload-service-service.yaml
+  - streaming-service-deployment.yaml
+  - streaming-service-service.yaml
+  - search-service-deployment.yaml
+  - search-service-service.yaml
+  - comment-service-deployment.yaml
+  - comment-service-service.yaml
+  - analytics-service-deployment.yaml
+  - analytics-service-service.yaml
+  - notification-service-deployment.yaml
+  - notification-service-service.yaml
+  - scheduler-service-deployment.yaml
+  - scheduler-service-service.yaml
+  - frontend-deployment.yaml
+  - frontend-service.yaml

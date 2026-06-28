@@ -6,9 +6,9 @@ namespace: sravas
 resources:
   - namespace.yaml
   - ingress-class.yaml
+  - ingress.yaml
   - mongodb/
   - elasticsearch/
   - kafka/
-# Day 3: core service deployments
-# Day 4: remaining service deployments + frontend
-# Day 5: HPA
+  - services/
+  - hpa/

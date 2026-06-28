@@ -22,6 +22,9 @@ SENDGRID_KEY="${SENDGRID_API_KEY:-}"
 AWS_KEY="${AWS_ACCESS_KEY_ID:-}"
 AWS_SECRET="${AWS_SECRET_ACCESS_KEY:-}"
 
+# Construct DATABASE_URL for user-service and scheduler-service
+DATABASE_URL="postgresql://${DB_USER}:${DB_PASS}@${DB_HOST}/sravas"
+
 echo "Creating sravas-secrets in namespace ${NS}..."
 kubectl create secret generic sravas-secrets -n "$NS" \
   --from-literal=mongo-root-username=admin \
@@ -34,6 +37,7 @@ kubectl create secret generic sravas-secrets -n "$NS" \
   --from-literal=aws-access-key-id="${AWS_KEY}" \
   --from-literal=aws-secret-access-key="${AWS_SECRET}" \
   --from-literal=sendgrid-api-key="${SENDGRID_KEY}" \
+  --from-literal=database-url="${DATABASE_URL}" \
   --dry-run=client -o yaml | kubectl apply -f -
 
 echo "Verifying..."
