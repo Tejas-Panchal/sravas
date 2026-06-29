@@ -1,0 +1,45 @@
+nameOverride: ""
+component: backend
+replicas: 1
+
+image:
+  repository: sravas-scheduler-service
+  tag: latest
+
+service:
+  port: 3009
+
+configMap:
+  enabled: true
+  name: scheduler-service-config
+
+envSecrets:
+  - name: DATABASE_URL
+    valueFrom:
+      secretKeyRef:
+        name: sravas-secrets
+        key: database-url
+
+livenessProbe:
+  path: /health
+  initialDelaySeconds: 10
+  periodSeconds: 10
+
+readinessProbe:
+  path: /ready
+  initialDelaySeconds: 5
+  periodSeconds: 5
+
+resources:
+  requests:
+    cpu: 100m
+    memory: 128Mi
+  limits:
+    cpu: 500m
+    memory: 256Mi
+
+hpa:
+  enabled: true
+  minReplicas: 2
+  maxReplicas: 10
+  targetCPUUtilizationPercentage: 70

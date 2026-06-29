@@ -1,0 +1,40 @@
+nameOverride: ""
+component: backend
+replicas: 1
+
+image:
+  repository: sravas-analytics-service
+  tag: latest
+
+service:
+  port: 3007
+
+configMap:
+  enabled: true
+  name: analytics-service-config
+
+envSecrets: []
+
+livenessProbe:
+  path: /health
+  initialDelaySeconds: 10
+  periodSeconds: 10
+
+readinessProbe:
+  path: /ready
+  initialDelaySeconds: 5
+  periodSeconds: 5
+
+resources:
+  requests:
+    cpu: 100m
+    memory: 128Mi
+  limits:
+    cpu: 500m
+    memory: 256Mi
+
+hpa:
+  enabled: true
+  minReplicas: 2
+  maxReplicas: 10
+  targetCPUUtilizationPercentage: 70

@@ -1,0 +1,45 @@
+nameOverride: ""
+component: backend
+replicas: 1
+
+image:
+  repository: sravas-notification-service
+  tag: latest
+
+service:
+  port: 3008
+
+configMap:
+  enabled: true
+  name: notification-service-config
+
+envSecrets:
+  - name: SENDGRID_API_KEY
+    valueFrom:
+      secretKeyRef:
+        name: sravas-secrets
+        key: sendgrid-api-key
+
+livenessProbe:
+  path: /health
+  initialDelaySeconds: 10
+  periodSeconds: 10
+
+readinessProbe:
+  path: /ready
+  initialDelaySeconds: 5
+  periodSeconds: 5
+
+resources:
+  requests:
+    cpu: 100m
+    memory: 128Mi
+  limits:
+    cpu: 500m
+    memory: 256Mi
+
+hpa:
+  enabled: true
+  minReplicas: 2
+  maxReplicas: 10
+  targetCPUUtilizationPercentage: 70

@@ -1,0 +1,50 @@
+nameOverride: ""
+component: backend
+replicas: 1
+
+image:
+  repository: sravas-upload-service
+  tag: latest
+
+service:
+  port: 3003
+
+configMap:
+  enabled: true
+  name: upload-service-config
+
+envSecrets:
+  - name: AWS_ACCESS_KEY_ID
+    valueFrom:
+      secretKeyRef:
+        name: sravas-secrets
+        key: aws-access-key-id
+  - name: AWS_SECRET_ACCESS_KEY
+    valueFrom:
+      secretKeyRef:
+        name: sravas-secrets
+        key: aws-secret-access-key
+
+livenessProbe:
+  path: /health
+  initialDelaySeconds: 10
+  periodSeconds: 10
+
+readinessProbe:
+  path: /ready
+  initialDelaySeconds: 5
+  periodSeconds: 5
+
+resources:
+  requests:
+    cpu: 100m
+    memory: 128Mi
+  limits:
+    cpu: 500m
+    memory: 256Mi
+
+hpa:
+  enabled: true
+  minReplicas: 2
+  maxReplicas: 10
+  targetCPUUtilizationPercentage: 70
