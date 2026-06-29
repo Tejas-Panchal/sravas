@@ -18,10 +18,23 @@ func main() {
 		port = "3003"
 	}
 
-	// Wire dependencies
-	store := service.NewLocalStorage("/tmp/uploads")
+	// Wire dependencies — use S3 when bucket is configured, local filesystem otherwise
+	var store service.Storage
+	if bucket := os.Getenv("S3_BUCKET"); bucket != "" {
+		var err error
+		store, err = service.NewS3Storage(bucket, os.Getenv("AWS_REGION"))
+		if err != nil {
+			log.Fatalf("failed to create S3 storage: %v", err)
+		}
+		log.Printf("Using S3 storage: bucket=%s", bucket)
+	} else {
+		store = service.NewLocalStorage("/tmp/uploads")
+		log.Printf("Using local storage: /tmp/uploads")
+	}
+
 	bus := service.NewLogEventBus()
-	svc := service.NewUploadService(store, bus)
+	cdnURL := os.Getenv("CDN_URL")
+	svc := service.NewUploadService(store, bus, cdnURL)
 	h := handler.NewUploadHandler(svc)
 
 	r := chi.NewRouter()

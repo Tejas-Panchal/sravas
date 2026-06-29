@@ -18,13 +18,14 @@ var (
 
 // UploadService handles video upload business logic
 type UploadService struct {
-	store Storage
-	bus   EventBus
+	store  Storage
+	bus    EventBus
+	cdnURL string
 }
 
-// NewUploadService creates an UploadService with the given storage and event bus
-func NewUploadService(store Storage, bus EventBus) *UploadService {
-	return &UploadService{store: store, bus: bus}
+// NewUploadService creates an UploadService with the given storage, event bus, and optional CDN URL
+func NewUploadService(store Storage, bus EventBus, cdnURL string) *UploadService {
+	return &UploadService{store: store, bus: bus, cdnURL: cdnURL}
 }
 
 // generateID creates a unique video ID using crypto/rand
@@ -62,6 +63,10 @@ func (s *UploadService) ProcessUpload(fileHeader *multipart.FileHeader, userID, 
 		Status:      model.StatusUploading,
 		CreatedAt:   now,
 		UpdatedAt:   now,
+	}
+
+	if s.cdnURL != "" {
+		video.URL = s.cdnURL + "/" + filename
 	}
 
 	mu.Lock()

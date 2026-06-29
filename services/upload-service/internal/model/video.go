@@ -25,6 +25,7 @@ type Video struct {
 	ViewCount   int64       `json:"view_count"`
 	LikeCount   int64       `json:"like_count"`
 	Thumbnail   string      `json:"thumbnail,omitempty"`
+	URL         string      `json:"url,omitempty"`
 	CreatedAt   time.Time   `json:"created_at"`
 	UpdatedAt   time.Time   `json:"updated_at"`
 }
