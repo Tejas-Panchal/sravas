@@ -93,11 +93,52 @@ const addComment = asyncHandler(async (req, res) => {
 });
 
 const updateComment = asyncHandler(async (req, res) => {
-  // TODO: update a comment
+  const { commentId } = req.params;
+  const { content } = req.body;
+
+  if (!isValidObjectId(commentId))
+    throw new ApiError(400, "invalid comment id");
+
+  if (!content?.trim()) throw new ApiError(400, "content is required");
+
+  const comment = await Comment.findById(commentId);
+
+  if (!comment) throw new ApiError(404, "comment not found");
+
+  if (comment.owner.toString() !== req.user._id.toString())
+    throw new ApiError(403, "you can only update your own comments");
+
+  comment.content = content;
+  await comment.save();
+
+  const updatedComment = await Comment.findById(commentId).populate(
+    "owner",
+    "_id username fullName avatar"
+  );
+
+  return res
+    .status(200)
+    .json(new ApiResponse(200, updatedComment, "comment updated successfully"));
 });
 
 const deleteComment = asyncHandler(async (req, res) => {
-  // TODO: delete a comment
+  const { commentId } = req.params;
+
+  if (!isValidObjectId(commentId))
+    throw new ApiError(400, "invalid comment id");
+
+  const comment = await Comment.findById(commentId);
+
+  if (!comment) throw new ApiError(404, "comment not found");
+
+  if (comment.owner.toString() !== req.user._id.toString())
+    throw new ApiError(403, "you can only delete your own comments");
+
+  await Comment.findByIdAndDelete(commentId);
+
+  return res
+    .status(200)
+    .json(new ApiResponse(200, {}, "comment deleted successfully"));
 });
 
 export { getVideoComments, addComment, updateComment, deleteComment };
