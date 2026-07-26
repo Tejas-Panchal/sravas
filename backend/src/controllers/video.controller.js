@@ -1,10 +1,12 @@
 import mongoose, { isValidObjectId } from "mongoose";
 import { Video } from "../models/video.model.js";
-import { User } from "../models/user.model.js";
 import { ApiError } from "../utils/ApiError.js";
 import { ApiResponse } from "../utils/ApiResponse.js";
 import { asyncHandler } from "../utils/asyncHandler.js";
-import { uploadOnCloudinary } from "../utils/cloudinary.js";
+import {
+  uploadOnCloudinary,
+  deleteFromCloudinary,
+} from "../utils/cloudinary.js";
 
 const getAllVideos = asyncHandler(async (req, res) => {
   const { page = 1, limit = 10, query, sortBy, sortType, userId } = req.query;
@@ -143,6 +145,10 @@ const updateVideo = asyncHandler(async (req, res) => {
   if (video.owner.toString() !== req.user._id.toString())
     throw new ApiError(403, "you can only update your own videos");
 
+  if (req.file && video.thumbnail) {
+    await deleteFromCloudinary(video.thumbnail);
+  }
+
   if (title) video.title = title;
   if (description) video.description = description;
 
@@ -171,6 +177,8 @@ const deleteVideo = asyncHandler(async (req, res) => {
   if (video.owner.toString() !== req.user._id.toString())
     throw new ApiError(403, "you can only delete your own videos");
 
+  await deleteFromCloudinary(video.thumbnail);
+  await deleteFromCloudinary(video.videoFile);
   await Video.findByIdAndDelete(videoId);
 
   return res
