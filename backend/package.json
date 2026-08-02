@@ -5,9 +5,9 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "dev": "tsx watch src/index.ts",
+    "dev": "tsx watch --import=dotenv/config src/index.ts",
     "build": "tsc",
-    "start": "node dist/index.js",
+    "start": "node --import=dotenv/config dist/index.js",
     "prettier": "prettier --write ."
   },
   "keywords": [],
