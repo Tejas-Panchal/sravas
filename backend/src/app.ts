@@ -3,6 +3,8 @@ import cors from "cors";
 import cookieParser from "cookie-parser";
 
 import userRouter from "./routes/user.route.js";
+import videoRouter from "./routes/video.route.js";
+import subscriptionRouter from "./routes/subscription.route.js";
 
 const app: Express = express();
 
@@ -13,5 +15,7 @@ app.use(express.static("public"));
 app.use(cookieParser());
 
 app.use("/api/v1/users", userRouter);
+app.use("/api/v1/videos", videoRouter);
+app.use("/api/v1/subscription", subscriptionRouter);
 
 export { app };
