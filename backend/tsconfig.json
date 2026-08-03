@@ -12,8 +12,8 @@
     "resolveJsonModule": true,
     "declaration": true,
     "allowImportingTsExtensions": true,
-    "rewriteRelativeImportExtensions": true
+    "rewriteRelativeImportExtensions": true,
+    "types": ["node"]
   },
-  "include": ["src", "public"],
-  "types": ["node"]
+  "include": ["src"]
 }
