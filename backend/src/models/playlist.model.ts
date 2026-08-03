@@ -1,0 +1,22 @@
+import mongoose, { Schema } from "mongoose";
+
+export interface IPlaylist {
+  name: string;
+  description: string;
+  videos: mongoose.Types.ObjectId[];
+  owner: mongoose.Types.ObjectId;
+}
+
+export type IPlaylistDocument = mongoose.HydratedDocument<IPlaylist>;
+
+const playlistSchema = new Schema<IPlaylist>(
+  {
+    name: { type: String, required: true },
+    description: { type: String, required: true },
+    videos: [{ type: Schema.Types.ObjectId, ref: "Video" }],
+    owner: { type: Schema.Types.ObjectId, ref: "User" },
+  },
+  { timestamps: true }
+);
+
+export const Playlist = mongoose.model<IPlaylist>("Playlist", playlistSchema);

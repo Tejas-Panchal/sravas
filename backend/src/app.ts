@@ -8,6 +8,7 @@ import subscriptionRouter from "./routes/subscription.route.js";
 import commentRouter from "./routes/comment.route.js";
 import likeRouter from "./routes/like.route.js";
 import postRouter from "./routes/post.route.js";
+import playlistRouter from "./routes/playlist.route.js";
 
 const app: Express = express();
 
@@ -23,5 +24,6 @@ app.use("/api/v1/subscription", subscriptionRouter);
 app.use("/api/v1/comments", commentRouter);
 app.use("/api/v1/like", likeRouter);
 app.use("/api/v1/posts", postRouter);
+app.use("/api/v1/playlist", playlistRouter);
 
 export { app };
