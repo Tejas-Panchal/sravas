@@ -5,6 +5,9 @@ import cookieParser from "cookie-parser";
 import userRouter from "./routes/user.route.js";
 import videoRouter from "./routes/video.route.js";
 import subscriptionRouter from "./routes/subscription.route.js";
+import commentRouter from "./routes/comment.route.js";
+import likeRouter from "./routes/like.route.js";
+import postRouter from "./routes/post.route.js";
 
 const app: Express = express();
 
@@ -17,5 +20,8 @@ app.use(cookieParser());
 app.use("/api/v1/users", userRouter);
 app.use("/api/v1/videos", videoRouter);
 app.use("/api/v1/subscription", subscriptionRouter);
+app.use("/api/v1/comments", commentRouter);
+app.use("/api/v1/like", likeRouter);
+app.use("/api/v1/posts", postRouter);
 
 export { app };
