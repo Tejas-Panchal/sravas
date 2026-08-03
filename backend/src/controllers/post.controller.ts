@@ -1,8 +1,8 @@
 import { isValidObjectId } from "mongoose";
-import { Post } from "../models/post.model.js";
-import { ApiError } from "../utils/ApiError.js";
-import { ApiResponse } from "../utils/ApiResponse.js";
-import { asyncHandler } from "../utils/asyncHandler.js";
+import { Post } from "../models/post.model.ts";
+import { ApiError } from "../utils/ApiError.ts";
+import { ApiResponse } from "../utils/ApiResponse.ts";
+import { asyncHandler } from "../utils/asyncHandler.ts";
 
 const createPost = asyncHandler(async (req, res) => {
   const { content } = req.body;

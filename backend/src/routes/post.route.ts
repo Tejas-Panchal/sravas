@@ -4,8 +4,8 @@ import {
   deletePost,
   getUserPosts,
   updatePost,
-} from "../controllers/post.controller.js";
-import { verifyJWT } from "../middlewares/auth.js";
+} from "../controllers/post.controller.ts";
+import { verifyJWT } from "../middlewares/auth.ts";
 
 const router: Router = Router();
 router.use(verifyJWT);

@@ -1,12 +1,12 @@
 import mongoose, { isValidObjectId } from "mongoose";
-import { Video } from "../models/video.model.js";
-import { ApiError } from "../utils/ApiError.js";
-import { ApiResponse } from "../utils/ApiResponse.js";
-import { asyncHandler } from "../utils/asyncHandler.js";
+import { Video } from "../models/video.model.ts";
+import { ApiError } from "../utils/ApiError.ts";
+import { ApiResponse } from "../utils/ApiResponse.ts";
+import { asyncHandler } from "../utils/asyncHandler.ts";
 import {
   uploadOnCloudinary,
   deleteFromCloudinary,
-} from "../utils/cloudinary.js";
+} from "../utils/cloudinary.ts";
 
 const getAllVideos = asyncHandler(async (req, res) => {
   const { page = 1, limit = 10, query, sortBy, sortType, userId } = req.query;
@@ -117,7 +117,7 @@ const publishAVideo = asyncHandler(async (req, res) => {
 });
 
 const getVideoById = asyncHandler(async (req, res) => {
-  const { videoId } = req.body;
+  const { videoId } = req.params as { videoId: string };
 
   if (!isValidObjectId(videoId)) throw new ApiError(400, "invalid video id");
 
@@ -137,7 +137,7 @@ const getVideoById = asyncHandler(async (req, res) => {
 });
 
 const updateVideo = asyncHandler(async (req, res) => {
-  const { videoId } = req.params;
+  const { videoId } = req.params as { videoId: string };
   const { title, description } = req.body;
 
   if (!title?.trim() && !description?.trim() && !req.file)
@@ -172,7 +172,7 @@ const updateVideo = asyncHandler(async (req, res) => {
 });
 
 const deleteVideo = asyncHandler(async (req, res) => {
-  const { videoId } = req.params;
+  const { videoId } = req.params as { videoId: string };
   if (!isValidObjectId(videoId)) throw new ApiError(400, "invalid video id");
 
   const video = await Video.findById(videoId);
@@ -191,7 +191,7 @@ const deleteVideo = asyncHandler(async (req, res) => {
 });
 
 const togglePublishStatus = asyncHandler(async (req, res) => {
-  const { videoId } = req.params;
+  const { videoId } = req.params as { videoId: string };
   if (!isValidObjectId(videoId)) throw new ApiError(400, "invalid video id");
 
   const video = await Video.findById(videoId);

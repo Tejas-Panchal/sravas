@@ -1,8 +1,8 @@
 import mongoose, { isValidObjectId } from "mongoose";
-import { ApiError } from "../utils/ApiError.js";
-import { asyncHandler } from "../utils/asyncHandler.js";
-import { ApiResponse } from "../utils/ApiResponse.js";
-import { Comment } from "../models/comment.model.js";
+import { ApiError } from "../utils/ApiError.ts";
+import { asyncHandler } from "../utils/asyncHandler.ts";
+import { ApiResponse } from "../utils/ApiResponse.ts";
+import { Comment } from "../models/comment.model.ts";
 
 const getVideoComments = asyncHandler(async (req, res) => {
   const { videoId } = req.params as { videoId: string };
@@ -27,7 +27,7 @@ const getVideoComments = asyncHandler(async (req, res) => {
       },
     },
     {
-      $addFields: { owner: { $arrayElemAt: ["owner", 0] } },
+      $addFields: { owner: { $arrayElemAt: ["$owner", 0] } },
     },
     {
       $project: {

@@ -7,8 +7,8 @@ import {
   getUserPlaylists,
   removeVideoFromPlaylist,
   updatePlaylist,
-} from "../controllers/playlist.controller.js";
-import { verifyJWT } from "../middlewares/auth.js";
+} from "../controllers/playlist.controller.ts";
+import { verifyJWT } from "../middlewares/auth.ts";
 
 const router: Router = Router();
 router.use(verifyJWT);
